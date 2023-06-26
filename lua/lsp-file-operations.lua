@@ -12,11 +12,12 @@ M.setup = function(opts)
   if opts.debug then
     log.level = "debug"
   end
-  local ok, tree_api = pcall(require, 'nvim-tree.api')
-  if ok then
-    log.debug("Setting up nvim-tree integration")
-    tree_api.events.subscribe(tree_api.events.Event.WillRenameNode, will_rename.callback)
-  end
+  vim.api.nvim_create_autocmd('User', {
+    pattern = 'MiniFilesActionRename',
+    callback = function(args)
+      will_rename.callback(args.data)
+    end
+  })
 end
 
 return M

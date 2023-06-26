@@ -26,8 +26,8 @@ M.callback = function(data)
       { "server_capabilities", "workspace", "fileOperations", "willRename" })
     if will_rename ~= nil then
       local filters = will_rename.filters or {}
-      if utils.matches_filters(filters, data.old_name) then
-        local edit = getWorkspaceEdit(client, data.old_name, data.new_name)
+      if utils.matches_filters(filters, data.from) then
+        local edit = getWorkspaceEdit(client, data.from, data.to)
         if edit ~= nil then
           log.debug("going to apply workspace edit", edit)
           vim.lsp.util.apply_workspace_edit(edit, client.offset_encoding)
